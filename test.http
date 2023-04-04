@@ -1,0 +1,36 @@
+POST http://localhost:4000/auth
+Content-Type: application/json
+
+{
+    "email": "ys2",
+    "password": "0000"
+}
+
+### 
+
+POST http://localhost:4000/auth/login
+Content-Type: application/json
+
+{
+    "email": "ys2",
+    "password": "0000"
+}
+
+### 
+
+GET http://localhost:4000/auth/login
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlzMiIsInByb3ZpZGVyIjoiTE9DQUwiLCJpYXQiOjE2ODA1MjA4NjEsImV4cCI6MTY4MDUyNDQ2MSwiaXNzIjoibXktbmV0ZmxpeC5jb20ifQ.EpLjkY_pqs3fWiXIbTDn-IFmmK1vP15KfUwDuqtY0HumlNvIqVdcpj6EAa6G4qtOJgVTDumhVocmRjzRnDQ0TKoJtTRYhZ05yrXjf_PzeUFUAogLONvRfoRMusKCob4mv6xFkSfbNnH5zydPLo9o2hHO7PdvV1CkJVLonAO9-7eJX7SkAGHPWfdpKOWxbq7mqiZj-vcTRfxAmJWrLiPChUWkeTx_83ZNEMMRGOwKjTkXL1Hr_buYeqvQtZMfIEjje7TwV0L7ZK5BPkAmXmwHZg9t7uIyJpBLbHIosm2BGrSTto4PUw1_GLUFD8HLMw_5JdZP1XkibfTDLR1LXJoqrA
+
+###
+
+GET http://localhost:4000/auth/code?email=yongsoocho@naver.com
+
+###
+
+POST http://localhost:4000/auth/code
+Content-Type: application/json
+
+{
+    "email": "yongsoocho@naver.com",
+    "code": "1385"
+}

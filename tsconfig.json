@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@lib/prisma": [
+        "libs/db/src",
+        "libs/db/src"
+      ],
+      "@lib/prisma/*": [
+        "libs/db/src/*",
+        "libs/db/src/*"
+      ],
+      "@lib/redis": [
+        "libs/redis/src",
+        "libs/redis/src"
+      ],
+      "@lib/redis/*": [
+        "libs/redis/src/*",
+        "libs/redis/src/*"
+      ],
+      "@lib/mailer": [
+        "libs/mailer/src",
+        "libs/mailer/src",
+        "libs/mailer/src",
+        "libs/mailer/src"
+      ],
+      "@lib/mailer/*": [
+        "libs/mailer/src/*",
+        "libs/mailer/src/*",
+        "libs/mailer/src/*",
+        "libs/mailer/src/*"
+      ]
+    }
+  }
+}

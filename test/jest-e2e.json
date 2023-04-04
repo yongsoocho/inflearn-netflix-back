@@ -1,0 +1,21 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@lib/prisma/(.*)": "<rootDir>/../libs/prisma/src/$1",
+    "@lib/prisma": "<rootDir>/../libs/prisma/src",
+    "@lib/redis/(.*)": "<rootDir>/../libs/redis/src/$1",
+    "@lib/redis": "<rootDir>/../libs/redis/src",
+    "@lib/mailer/(.*)": "<rootDir>/../libs/mailer/src/$1",
+    "@lib/mailer": "<rootDir>/../libs/mailer/src"
+  }
+}

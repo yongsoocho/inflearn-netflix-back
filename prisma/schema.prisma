@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 컬럼명    백엔드     DB (<- 주로 @붙음)
+
+enum PROVIDER {
+  LOCAL
+  KAKAO
+}
+
+model User {
+  userId   String   @id @default(uuid()) @db.VarChar(36)
+  email    String   @unique
+  password String   @db.VarChar(100)
+  provider PROVIDER @default(LOCAL)
+  snsId    String?  @db.VarChar(100)
+
+  profiles Profile[]
+}
+
+model Profile {
+  profileId String  @id @default(uuid()) @db.VarChar(36)
+  userId    String  @default(uuid()) @db.VarChar(36)
+  name      String  @db.VarChar(10)
+  avatarUrl String? @db.VarChar(255)
+
+  user           User         @relation(fields: [userId], references: [userId])
+  myMovies       MyList[]
+  watchingMovies MyWatching[]
+}
+
+model Category {
+  categoryName String @id @db.VarChar(50)
+
+  CateMovie CateMovie[]
+}
+
+model CateMovie {
+  categoryName String @map("CATE_NAME") @db.VarChar(50)
+  movieId      Int    @default(autoincrement()) @map("MOVIE_ID") @db.Integer
+
+  category Category @relation(fields: [categoryName], references: [categoryName])
+  movie    Movie    @relation(fields: [movieId], references: [movieId])
+
+  @@id([categoryName, movieId])
+  @@map("CATE_MOVIE")
+}
+
+model Movie {
+  movieId   Int     @id @default(autoincrement()) @db.Integer
+  title     String  @db.VarChar(255)
+  thumbnail String? @db.VarChar(255)
+
+  detailInfo           MovieDetail?
+  categories           CateMovie[]
+  listedMovie          MyList[]
+}
+
+model MovieDetail {
+  movieId  Int    @id @db.Integer
+  videoUrl String @db.VarChar(255)
+  year     String @db.Char(4)
+
+  movie Movie @relation(fields: [movieId], references: [movieId])
+
+  watchedVideo MyWatching[]
+}
+
+model MyList {
+  profileId String @default(uuid()) @db.VarChar(36)
+  movieId   Int    @default(autoincrement()) @map("MOVIE_ID") @db.Integer
+
+  profile Profile @relation(fields: [profileId], references: [profileId])
+  movie   Movie   @relation(fields: [movieId], references: [movieId])
+
+  @@id([profileId, movieId])
+}
+
+model MyWatching {
+  profileId String @default(uuid()) @db.VarChar(36)
+  movieId   Int    @db.Integer
+
+  profile     Profile     @relation(fields: [profileId], references: [profileId])
+  movieDetail MovieDetail @relation(fields: [movieId], references: [movieId])
+
+  @@id([profileId, movieId])
+}
