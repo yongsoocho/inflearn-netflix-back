@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { EmailAndPassword } from './dto/create-auth.dto';
 // import { UpdateAuthDto } from './dto/update-auth.dto';
 import { PrismaService } from '@lib/prisma';
@@ -12,7 +12,7 @@ import { MailerService } from '@lib/mailer';
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly redis: RedisService,
+    @Inject('REDIS_SERVICE') private readonly redis: RedisService,
     private readonly transporter: MailerService,
   ) {}
 

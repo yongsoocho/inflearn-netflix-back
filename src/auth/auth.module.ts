@@ -6,8 +6,8 @@ import { RedisModule } from '@lib/redis';
 import { MailerModule, MailerService } from '@lib/mailer';
 
 @Module({
-  imports: [MailerModule],
+  imports: [MailerModule, RedisModule],
   controllers: [AuthController],
-  providers: [AuthService, PrismaService, RedisModule, MailerService],
+  providers: [AuthService, PrismaService, MailerService],
 })
 export class AuthModule {}
