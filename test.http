@@ -32,5 +32,9 @@ Content-Type: application/json
 
 {
     "email": "yongsoocho@naver.com",
+<<<<<<< HEAD
     "code": "1624"
+=======
+    "code": "6497"
+>>>>>>> main
 }

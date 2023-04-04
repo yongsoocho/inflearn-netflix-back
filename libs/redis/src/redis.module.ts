@@ -12,10 +12,9 @@ const RedisFactory = {
   },
   inject: [ConfigService],
 };
-
 @Global()
 @Module({
-  providers: [RedisFactory, ConfigService],
+  providers: [ConfigService, RedisFactory],
   exports: [RedisFactory],
 })
 export class RedisModule {}
