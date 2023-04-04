@@ -3,6 +3,7 @@
 /node_modules
 *.key
 client*.json
+.env
 
 # Logs
 logs

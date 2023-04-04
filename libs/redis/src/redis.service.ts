@@ -1,17 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { BeforeApplicationShutdown, Injectable } from '@nestjs/common';
+// import { ConfigService } from '@nestjs/config';
 import { Redis } from 'ioredis';
 
 @Injectable()
-export class RedisService {
+export class RedisService implements BeforeApplicationShutdown {
   private _redis: Redis;
 
-  constructor(private readonly config: ConfigService) {
-    console.log(this.config.get('REDIS_HOST'));
+  constructor(private readonly host, private readonly password) {
     this._redis = new Redis({
-      host: this.config.get<string>('REDIS_HOST'),
+      host,
       port: 16363,
-      password: this.config.get<string>('REDIS_PW'),
+      password,
     });
   }
 
@@ -19,15 +18,24 @@ export class RedisService {
     if (this._redis) return this._redis;
 
     this._redis = new Redis({
-      host: this.config.get<string>('REDIS_HOST'),
+      host: this.host,
       port: 16363,
-      password: this.config.get<string>('REDIS_PW'),
+      password: this.password,
     });
 
     return this._redis;
   }
 
-  async enableShutdownHooks() {
+  set(key: string, value: string, expireTime: string) {
+    // this.redis.getRedis().set(email, String(code), 'EX', '300');
+    return this._redis.set(key, value, 'EX', expireTime);
+  }
+
+  get(key: string) {
+    return this._redis.get(key);
+  }
+
+  async beforeApplicationShutdown() {
     this._redis.disconnect();
   }
 }

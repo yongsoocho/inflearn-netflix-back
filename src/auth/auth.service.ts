@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { EmailAndPassword } from './dto/create-auth.dto';
 // import { UpdateAuthDto } from './dto/update-auth.dto';
 import { PrismaService } from '@lib/prisma';
@@ -12,7 +12,7 @@ import { MailerService } from '@lib/mailer';
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly redis: RedisService,
+    @Inject('REDIS_SERVICE') private readonly redis: RedisService,
     private readonly transporter: MailerService,
   ) {}
 
@@ -50,7 +50,7 @@ export class AuthService {
       },
     });
 
-    const codeCheck = await this.redis.getRedis().get(emailAndPassword.email);
+    const codeCheck = await this.redis.get(emailAndPassword.email);
 
     if (codeCheck != 'OK')
       throw new HttpException(
@@ -91,19 +91,19 @@ export class AuthService {
       subject: '안녕하세요 코드번호 드립니다.',
     });
 
-    this.redis.getRedis().set(email, String(code), 'EX', '300');
+    this.redis.set(email, String(code), '300');
 
     return true;
   }
 
   async codeCheck(email: string, code: string) {
-    const rcode: string = await this.redis.getRedis().get(email);
+    const rcode: string = await this.redis.get(email);
     console.log(rcode);
 
     if (code !== rcode)
       throw new HttpException('코드가 틀렸습니다.', HttpStatus.BAD_REQUEST);
 
-    this.redis.getRedis().set(email, 'OK', 'EX', '600');
+    this.redis.set(email, 'OK', '600');
 
     return true;
   }
