@@ -20,7 +20,7 @@ enum PROVIDER {
 model User {
   userId   String   @id @default(uuid()) @db.VarChar(36)
   email    String   @unique
-  password String   @db.VarChar(100)
+  password String?  @db.VarChar(100)
   provider PROVIDER @default(LOCAL)
   snsId    String?  @db.VarChar(100)
 
@@ -58,17 +58,20 @@ model CateMovie {
 model Movie {
   movieId   Int     @id @default(autoincrement()) @db.Integer
   title     String  @db.VarChar(255)
-  thumbnail String? @db.VarChar(255)
+  thumbnail String? @db.Text
 
-  detailInfo           MovieDetail?
-  categories           CateMovie[]
-  listedMovie          MyList[]
+  detailInfo  MovieDetail?
+  categories  CateMovie[]
+  listedMovie MyList[]
 }
 
 model MovieDetail {
-  movieId  Int    @id @db.Integer
-  videoUrl String @db.VarChar(255)
-  year     String @db.Char(4)
+  movieId     Int      @id @db.Integer
+  videoUrl    String   @db.Text
+  year        String   @db.Char(4)
+  logo        String?  @db.Text
+  casts       String[] @default([])
+  description String   @db.Text
 
   movie Movie @relation(fields: [movieId], references: [movieId])
 

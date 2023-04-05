@@ -10,6 +10,7 @@ export class RedisService implements BeforeApplicationShutdown {
       host,
       port: 16363,
       password,
+      lazyConnect: true,
     });
   }
 

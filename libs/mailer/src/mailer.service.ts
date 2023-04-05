@@ -6,7 +6,7 @@ import juice from 'juice';
 import * as nodemailer from 'nodemailer';
 
 interface MailSendInput {
-  code: string;
+  code?: string;
   to: string;
   subject: string;
 }
@@ -28,21 +28,30 @@ export class MailerService {
   constructor(private readonly config: ConfigService) {}
 
   sendMail({ code, to, subject }: MailSendInput) {
-    const htmlFile = readFileSync('index.html', 'utf-8');
+    const htmlFile = readFileSync(code ? 'index.html' : 'hello.html', 'utf-8');
 
     const htmlWithStyle = juice(htmlFile, {
       removeStyleTags: true,
     });
 
-    const template = Handlebars.compile(htmlWithStyle);
+    if (code) {
+      const template = Handlebars.compile(htmlWithStyle);
 
-    const result = template({ code });
+      const result = template({ code });
+
+      return this.transporter.sendMail({
+        from: '<안녕하세요!> yongsoocho578@gmail.com',
+        to,
+        subject,
+        html: result,
+      });
+    }
 
     return this.transporter.sendMail({
       from: '<안녕하세요!> yongsoocho578@gmail.com',
       to,
       subject,
-      html: result,
+      html: htmlWithStyle,
     });
   }
 }

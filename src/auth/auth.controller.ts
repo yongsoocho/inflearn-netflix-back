@@ -46,9 +46,9 @@ export class AuthController {
     return this.authService.codeCheck(email, code);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
+  @Post('kakao')
+  kakaoLogin(@Body('code') code: string) {
+    return this.authService.kakaoLogin(code);
   }
 
   @Delete(':id')
