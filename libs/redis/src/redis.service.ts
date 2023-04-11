@@ -10,6 +10,7 @@ export class RedisService implements BeforeApplicationShutdown {
       host,
       port: 16363,
       password,
+      username: 'default',
       lazyConnect: true,
     });
   }
@@ -22,6 +23,8 @@ export class RedisService implements BeforeApplicationShutdown {
       port: 16363,
       password: this.password,
     });
+
+    this._redis.on('error', (e) => console.log(e));
 
     return this._redis;
   }

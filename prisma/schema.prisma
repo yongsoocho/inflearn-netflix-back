@@ -60,9 +60,10 @@ model Movie {
   title     String  @db.VarChar(255)
   thumbnail String? @db.Text
 
-  detailInfo  MovieDetail?
-  categories  CateMovie[]
-  listedMovie MyList[]
+  detailInfo    MovieDetail?
+  categories    CateMovie[]
+  listedMovie   MyList[]
+  watchingUsers MyWatching[]
 }
 
 model MovieDetail {
@@ -74,8 +75,6 @@ model MovieDetail {
   description String   @db.Text
 
   movie Movie @relation(fields: [movieId], references: [movieId])
-
-  watchedVideo MyWatching[]
 }
 
 model MyList {
@@ -92,8 +91,8 @@ model MyWatching {
   profileId String @default(uuid()) @db.VarChar(36)
   movieId   Int    @db.Integer
 
-  profile     Profile     @relation(fields: [profileId], references: [profileId])
-  movieDetail MovieDetail @relation(fields: [movieId], references: [movieId])
+  profile Profile @relation(fields: [profileId], references: [profileId])
+  movie   Movie   @relation(fields: [movieId], references: [movieId])
 
   @@id([profileId, movieId])
 }

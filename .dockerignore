@@ -1,0 +1,9 @@
+node_modules/
+dist/
+test/
+.eslintrc.js
+.gitignore
+.prettierrc
+db.vuerd.json
+README.md
+test.http

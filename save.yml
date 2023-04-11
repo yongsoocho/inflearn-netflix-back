@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  db:
+    container_name: netflix-db
+    image: postgres:15.2-alpine3.17
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "0000"
+      POSTGRES_DB: mydb
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  back-app:
+    container_name: "netflix-nestjs"
+    build:
+      context: ./back
+      dockerfile: Dockerfile.dev
+      tags:
+        - "netflix-nestjs:1.0.0"
+      platforms:
+        - "linux/arm64"
+    ports:
+      - "4000:4000"
+    env_file:
+      - back/.env
+    volumes:
+      - ./back:/app/back
+      - /app/back/node_modules
+    depends_on:
+      - db
