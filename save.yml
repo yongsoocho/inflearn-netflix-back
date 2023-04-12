@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  db:
-    container_name: netflix-db
+  db-service:
+    container_name: postgre-server
     image: postgres:15.2-alpine3.17
     restart: always
     environment:
@@ -13,27 +13,39 @@ services:
     ports:
       - 5432:5432
 
-  adminer:
-    image: adminer
-    restart: always
+  front-service:
+    container_name: react-server
+    build:
+      context: ./front
+      dockerfile: Dockerfile.dev
+      tags:
+        - "react-server:1.0.0"
+      platforms:
+        - "linux/arm64"
     ports:
-      - 8080:8080
+      - "3000:3000"
+    volumes:
+      - ./front:/app/front
+      - /app/front/node_modules
+    stdin_open: true
 
-  back-app:
-    container_name: "netflix-nestjs"
+  back-service:
+    container_name: nestjs-server
     build:
       context: ./back
       dockerfile: Dockerfile.dev
       tags:
-        - "netflix-nestjs:1.0.0"
+        - "nestjs-server:1.0.0"
       platforms:
         - "linux/arm64"
+    restart: always
     ports:
       - "4000:4000"
     env_file:
       - back/.env
+    depends_on:
+      db-service:
+        condition: service_started
     volumes:
       - ./back:/app/back
       - /app/back/node_modules
-    depends_on:
-      - db

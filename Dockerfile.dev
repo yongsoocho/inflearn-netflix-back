@@ -2,10 +2,16 @@ FROM node:16.19.0-alpine3.17
 
 WORKDIR /app/back
 
-COPY package*.json .
+COPY pack*.json .
 
 RUN npm install
 
 COPY . .
 
-CMD ["npm", "run", "start:dev"]
+RUN npx prisma db push
+
+RUN npm build
+
+# CMD ["npm", "run", "start:dev"]
+
+CMD ["npm", "start"]
