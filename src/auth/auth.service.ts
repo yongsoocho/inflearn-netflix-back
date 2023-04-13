@@ -43,6 +43,7 @@ export class AuthService {
 
   signJwtToken(exUser) {
     const payload = {
+      userId: exUser.userId,
       email: exUser.email,
       provider: exUser.provider,
     };
@@ -93,7 +94,10 @@ export class AuthService {
 
   // 클라이언트 객체.테이블.쿼리
   async create(emailAndPassword: EmailAndPassword) {
-    const exUser = await this.prisma.findUserByEmail(emailAndPassword.email);
+    const exUser = await this.prisma.findUserByEmail(
+      emailAndPassword.email,
+      true,
+    );
 
     if (exUser)
       throw new HttpException("이미 있는 유저입니다.", HttpStatus.BAD_REQUEST);
@@ -102,6 +106,14 @@ export class AuthService {
       data: {
         email: emailAndPassword.email,
         password: await bcrypt.hash(emailAndPassword.password, 10),
+        profiles: {
+          create: {
+            name: "default",
+          },
+        },
+      },
+      include: {
+        profiles: true,
       },
     });
 
@@ -117,7 +129,10 @@ export class AuthService {
   }
 
   async loginUser(emailAndPassword: EmailAndPassword) {
-    const exUser = await this.prisma.findUserByEmail(emailAndPassword.email);
+    const exUser = await this.prisma.findUserByEmail(
+      emailAndPassword.email,
+      true,
+    );
 
     if (!exUser)
       throw new HttpException("없는 유저입니다.", HttpStatus.NOT_FOUND);
@@ -169,7 +184,7 @@ export class AuthService {
       kakao_account: { email },
     } = await this.getKakaoUser(code);
 
-    const exUser = await this.prisma.findUserByEmail(email);
+    const exUser = await this.prisma.findUserByEmail(email, true);
 
     // 회원 가입 + 로그인
     if (!exUser) {
@@ -178,6 +193,11 @@ export class AuthService {
           email,
           provider: "KAKAO",
           snsId: String(id),
+          profiles: {
+            create: {
+              name: "default",
+            },
+          },
         },
       });
 

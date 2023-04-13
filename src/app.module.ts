@@ -4,6 +4,7 @@ import { MovieModule } from './movie/movie.module';
 import { PrismaModule } from '../libs/db/src/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from '@lib/redis';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { RedisModule } from '@lib/redis';
       isGlobal: true,
     }),
     RedisModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

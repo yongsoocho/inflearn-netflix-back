@@ -3,6 +3,7 @@ import { AppModule } from "./app.module";
 import * as Sentry from "@sentry/node";
 import { WebHookInterceptor } from "./common/interceptor/webhook.interceptor";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,7 @@ async function bootstrap() {
     credentials: true,
   });
 
+  app.use(cookieParser());
   app.use(morgan("combined"));
 
   app.useGlobalInterceptors(new WebHookInterceptor());
