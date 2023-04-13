@@ -6,10 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
+  UseGuards,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { MulterOptions } from "@lip/multer-s3";
+import { JwtGuard } from "src/common/guard/jwt.guard";
+import { User } from "src/common/decorator/jwt.decorator";
 
 @Controller("user")
 export class UserController {
@@ -20,9 +26,11 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Patch()
+  @UseGuards(JwtGuard)
+  // @UseInterceptors(FileInterceptor("avatarUrl", MulterOptions))
+  changeAvartar(@UploadedFile() file, @User() user) {
+    return this.userService.changeAvartar(user, file);
   }
 
   @Get(":id")
@@ -31,7 +39,7 @@ export class UserController {
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param("id") id: string, @Body() updateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 

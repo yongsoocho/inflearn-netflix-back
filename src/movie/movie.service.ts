@@ -1,15 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
-import { PrismaService } from '@lib/prisma';
-import { RedisService } from '@lib/redis';
-import { ISearchMovie } from './dto/search-movie.dto';
+import { Inject, Injectable } from "@nestjs/common";
+import { CreateMovieDto } from "./dto/create-movie.dto";
+import { UpdateMovieDto } from "./dto/update-movie.dto";
+import { PrismaService } from "@lib/prisma";
+import { RedisService } from "@lib/redis";
+import { ISearchMovie } from "./dto/search-movie.dto";
 
 @Injectable()
 export class MovieService {
   constructor(
     private readonly prisma: PrismaService,
-    @Inject('REDIS_SERVICE') private readonly redis: RedisService,
+    @Inject("REDIS_SERVICE") private readonly redis: RedisService,
   ) {}
 
   async getMovies(cates: string[], profileId?: string) {
@@ -48,8 +48,8 @@ export class MovieService {
 
     const data = {};
 
-    if (profileId) data['My watching'] = result[0].map((e) => e.movie);
-    data['mainScreen'] = mainScreen;
+    if (profileId) data["My watching"] = result[0].map((e) => e.movie);
+    data["mainScreen"] = mainScreen;
 
     cates.forEach(
       (cate: string, index) =>
@@ -63,12 +63,12 @@ export class MovieService {
 
   getMoviesInMainPage(user) {
     const cates: string[] = [
-      'TV Shows Based on Real Life',
-      'Period Pieces',
-      'Action & Adventure',
-      'Reality TV',
-      'Crime TV Shows',
-      'Horror Movies',
+      "TV Shows Based on Real Life",
+      "Period Pieces",
+      "Action & Adventure",
+      "Reality TV",
+      "Crime TV Shows",
+      "Horror Movies",
     ];
 
     return this.getMovies(cates, user.profileId);
@@ -85,13 +85,13 @@ export class MovieService {
    */
   getMoviesInMoviePage() {
     const cates: string[] = [
-      'Canadian',
-      'Family Watch Together TV',
-      'Hip-Hop',
-      'Reality TV',
-      'TV Cartoons',
-      'Movies Based on Books',
-      'Korean',
+      "Canadian",
+      "Family Watch Together TV",
+      "Hip-Hop",
+      "Reality TV",
+      "TV Cartoons",
+      "Movies Based on Books",
+      "Korean",
     ];
 
     return this.getMovies(cates);
@@ -171,7 +171,7 @@ export class MovieService {
     await this.redis.set(
       `${q.query}:${q.page}:${q.take}`,
       JSON.stringify(movies),
-      '600',
+      "600",
     );
 
     return {
@@ -212,7 +212,7 @@ export class MovieService {
           movieId,
         },
       })
-      .then(() => 'ADD');
+      .then(() => "ADD");
   }
 
   deleteMovie(profileId, movieId) {
@@ -225,6 +225,6 @@ export class MovieService {
           },
         },
       })
-      .then(() => 'DEL');
+      .then(() => "DEL");
   }
 }

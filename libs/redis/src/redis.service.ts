@@ -1,44 +1,34 @@
-import { BeforeApplicationShutdown, Injectable } from '@nestjs/common';
-import { Redis } from 'ioredis';
+import {
+  BeforeApplicationShutdown,
+  CACHE_MANAGER,
+  Inject,
+  Injectable,
+} from "@nestjs/common";
+import { Cache } from "cache-manager";
 
 @Injectable()
 export class RedisService implements BeforeApplicationShutdown {
-  private _redis: Redis;
+  // private _redis: Redis;
 
-  constructor(private readonly host, private readonly password) {
-    this._redis = new Redis({
-      host,
-      port: 16363,
-      password,
-      username: 'default',
-      lazyConnect: true,
-    });
-  }
+  constructor(
+    @Inject(CACHE_MANAGER)
+    private readonly _redis: Cache,
+  ) {}
 
-  getRedis() {
-    if (this._redis) return this._redis;
-
-    this._redis = new Redis({
-      host: this.host,
-      port: 16363,
-      password: this.password,
-    });
-
-    this._redis.on('error', (e) => console.log(e));
-
+  getCli() {
     return this._redis;
   }
 
   set(key: string, value: string, expireTime: string) {
     // this.redis.getRedis().set(email, String(code), 'EX', '300');
-    return this._redis.set(key, value, 'EX', expireTime);
+    return this._redis.set(key, value, +expireTime);
   }
 
-  get(key: string) {
+  get(key: string): Promise<string> {
     return this._redis.get(key);
   }
 
   async beforeApplicationShutdown() {
-    this._redis.disconnect();
+    // this._redis.disconnect();
   }
 }

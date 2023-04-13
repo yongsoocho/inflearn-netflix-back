@@ -16,6 +16,10 @@
     "@lib/redis/(.*)": "<rootDir>/../libs/redis/src/$1",
     "@lib/redis": "<rootDir>/../libs/redis/src",
     "@lib/mailer/(.*)": "<rootDir>/../libs/mailer/src/$1",
-    "@lib/mailer": "<rootDir>/../libs/mailer/src"
+    "@lib/mailer": "<rootDir>/../libs/mailer/src",
+    "@lib/multer/(.*)": "<rootDir>/../libs/multer/src/$1",
+    "@lib/multer": "<rootDir>/../libs/multer/src",
+    "@lip/multer-s3/(.*)": "<rootDir>/../libs/multer-s3/src/$1",
+    "@lip/multer-s3": "<rootDir>/../libs/multer-s3/src"
   }
 }

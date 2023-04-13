@@ -9,6 +9,7 @@ import {
   UseGuards,
   Query,
   Res,
+  Req,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { EmailAndPassword } from "./dto/create-auth.dto";
@@ -65,5 +66,15 @@ export class AuthController {
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.authService.remove(+id);
+  }
+
+  @Get("session")
+  session(@Req() req) {
+    return req.session.user;
+  }
+
+  @Post("session")
+  session2(@Req() req) {
+    return (req.session.user = { [Math.random()]: "1" });
   }
 }

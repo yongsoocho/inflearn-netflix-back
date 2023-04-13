@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
 import { PrismaService } from "@lib/prisma";
 
 @Injectable()
@@ -9,19 +8,20 @@ export class UserService {
 
   create(createUserDto: CreateUserDto) {
     return this.prisma.profile.create({
-      data: { userId: createUserDto.userId, name: createUserDto.name },
+      data: { userId: createUserDto.userId, name: "default" },
     });
   }
 
-  findAll() {
-    return `This action returns all user`;
+  changeAvartar(user, file) {
+    // return this.prisma.profile.update({
+    // });
   }
 
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  update(id: number, updateUserDto) {
     return `This action updates a #${id} user`;
   }
 

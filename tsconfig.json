@@ -46,6 +46,18 @@
         "libs/mailer/src/*",
         "libs/mailer/src/*",
         "libs/mailer/src/*"
+      ],
+      "@lib/multer": [
+        "libs/multer/src"
+      ],
+      "@lib/multer/*": [
+        "libs/multer/src/*"
+      ],
+      "@lip/multer-s3": [
+        "libs/multer-s3/src"
+      ],
+      "@lip/multer-s3/*": [
+        "libs/multer-s3/src/*"
       ]
     }
   }

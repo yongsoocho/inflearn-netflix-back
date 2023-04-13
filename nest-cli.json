@@ -33,6 +33,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/mailer/tsconfig.lib.json"
       }
+    },
+    "multer-s3": {
+      "type": "library",
+      "root": "libs/multer-s3",
+      "entryFile": "index",
+      "sourceRoot": "libs/multer-s3/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/multer-s3/tsconfig.lib.json"
+      }
     }
   }
 }
