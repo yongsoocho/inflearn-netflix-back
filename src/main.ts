@@ -4,6 +4,10 @@ import * as Sentry from "@sentry/node";
 import { WebHookInterceptor } from "./common/interceptor/webhook.interceptor";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import session from "express-session";
+import { Redis } from "ioredis";
+import RedisStore from "connect-redis";
+import { RedisService } from "@lib/redis";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,7 +21,22 @@ async function bootstrap() {
     credentials: true,
   });
 
-  app.use(cookieParser());
+  // app.use(cookieParser());
+  // app.use(
+  //   session({
+  //     secret: "my-secret",
+  //     resave: false,
+  //     saveUninitialized: false,
+  //     // store: new Redis({
+  //     //   host: process.env.REDIS_HOST,
+  //     //   password: process.env.REDIS_PW,
+  //     //   port: 16363,
+  //     // }),
+  //     store: new RedisStore({
+  //       client: RedisService.getRedis(),
+  //     }),
+  //   }),
+  // );
   app.use(morgan("combined"));
 
   app.useGlobalInterceptors(new WebHookInterceptor());

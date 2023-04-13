@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
+  Session,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -23,6 +25,18 @@ export class UserController {
   @Get()
   findAll() {
     return this.userService.findAll();
+  }
+
+  @Get("s1")
+  s1(@Session() session) {
+    console.log(session);
+    return "bye";
+  }
+
+  @Get("s2")
+  s2(@Session() session) {
+    console.log(session);
+    return "hi";
   }
 
   @Get(":id")

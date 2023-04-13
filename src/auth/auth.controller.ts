@@ -20,6 +20,16 @@ import { Response } from "express";
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Get("s1")
+  s1() {
+    return this.authService.s1();
+  }
+
+  @Get("s2")
+  s2() {
+    return this.authService.s2();
+  }
+
   @Post()
   async createUser(
     @Body() emailAndPassword: EmailAndPassword,

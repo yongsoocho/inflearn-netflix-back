@@ -92,6 +92,14 @@ export class AuthService {
       .catch((e) => console.log(e.message));
   }
 
+  async s1() {
+    return this.redis.get("hi");
+  }
+
+  async s2() {
+    return this.redis.set("hi", "123123", 10);
+  }
+
   // 클라이언트 객체.테이블.쿼리
   async create(emailAndPassword: EmailAndPassword) {
     const exUser = await this.prisma.findUserByEmail(
