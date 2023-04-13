@@ -2,7 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import * as Sentry from "@sentry/node";
 import { WebHookInterceptor } from "./common/interceptor/webhook.interceptor";
-import * as morgan from "morgan";
+import morgan from "morgan";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,11 +12,13 @@ async function bootstrap() {
   });
 
   app.enableCors({
-    origin: ["*", "http://front-service:3000", "http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://front-service:3000", "*"],
     credentials: true,
   });
-  app.useGlobalInterceptors(new WebHookInterceptor());
+
   app.use(morgan("combined"));
+
+  app.useGlobalInterceptors(new WebHookInterceptor());
   await app.listen(4000);
 }
 bootstrap();

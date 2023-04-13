@@ -4,7 +4,7 @@ test/
 .eslintrc.js
 .gitignore
 .prettierrc
-db.vuerd.json
+db.*.json
 README.md
 save.yml
 test.http

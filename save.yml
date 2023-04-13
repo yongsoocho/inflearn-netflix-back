@@ -1,25 +1,27 @@
 version: "3"
 
 services:
-  db-service:
-    container_name: postgre-server
+  dbservice:
+    container_name: dbservice
     image: postgres:15.2-alpine3.17
     restart: always
+    hostname: dbservice
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: "0000"
       POSTGRES_DB: mydb
       PGDATA: /var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
+    stdin_open: true
 
   front-service:
-    container_name: react-server
+    container_name: front-service
     build:
       context: ./front
       dockerfile: Dockerfile.dev
       tags:
-        - "react-server:1.0.0"
+        - "nfr:1.0.0"
       platforms:
         - "linux/arm64"
     ports:
@@ -30,21 +32,19 @@ services:
     stdin_open: true
 
   back-service:
-    container_name: nestjs-server
+    container_name: back-service
     build:
       context: ./back
       dockerfile: Dockerfile.dev
       tags:
-        - "nestjs-server:1.0.0"
+        - "nbn:1.0.0"
       platforms:
         - "linux/arm64"
-    restart: always
     ports:
       - "4000:4000"
-    env_file:
-      - back/.env
+    restart: always
     depends_on:
-      db-service:
+      dbservice:
         condition: service_started
     volumes:
       - ./back:/app/back

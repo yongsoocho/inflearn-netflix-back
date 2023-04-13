@@ -2,16 +2,14 @@ FROM node:16.19.0-alpine3.17
 
 WORKDIR /app/back
 
-COPY pack*.json .
+COPY package*.json .
 
 RUN npm install
 
 COPY . .
 
-RUN npx prisma db push
+RUN npx prisma generate
 
-RUN npm build
+RUN npm run build
 
-# CMD ["npm", "run", "start:dev"]
-
-CMD ["npm", "start"]
+CMD ["node", "dist/main.js"]
