@@ -37,7 +37,7 @@ export class RedisModule {
             // sameSite: true,
             // httpOnly: true,
             // secure: true,
-            maxAge: 60 * 60,
+            maxAge: 60 * 60 * 60,
           },
         }),
       )

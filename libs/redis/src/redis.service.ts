@@ -11,6 +11,7 @@ export class RedisService implements BeforeApplicationShutdown {
       host,
       port: 16363,
       password,
+      name: "default",
       lazyConnect: true,
       connectTimeout: 10000,
       family: 6,

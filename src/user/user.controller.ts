@@ -29,13 +29,14 @@ export class UserController {
 
   @Get("s1")
   s1(@Session() session) {
-    console.log(session);
-    return "bye";
+    return session.user;
   }
 
   @Get("s2")
   s2(@Session() session) {
-    console.log(session);
+    session.user = {
+      name: "test",
+    };
     return "hi";
   }
 
